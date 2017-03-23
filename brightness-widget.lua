@@ -26,6 +26,10 @@ function Brightness:new(args)
 	obj.set = args.set or "-set"
 	obj.get = args.get or "-get"
 
+    if not obj:isBrightnessAvailable() then
+        return nil
+    end
+
 	-- Create imagebox widget
 	obj.widget = wibox.widget.imagebox()
 	obj.widget:set_resize(false)
@@ -44,6 +48,12 @@ function Brightness:new(args)
 	obj:update()
 
 	return obj
+end
+
+function Brightness:isBrightnessAvailable()
+    local b = self:getBrightness()
+    local b_percent = tonumber(b)
+    return not b_percent == nil
 end
 
 function Brightness:tooltipText()
